@@ -1,26 +1,616 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
 @import "tailwindcss";
 
+/* ============================================
+   DESIGN TOKENS — SANUS CONTÁBIL DIGITAL
+   Paleta extraída da logo oficial
+   Vermelho #D93025 · Cinza #5A5A5A · Branco #FFFFFF
+   ============================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Marca */
+  --red:         #D93025;
+  --red-dark:    #B71C1C;
+  --red-light:   #FFF0EF;
+  --red-border:  rgba(217,48,37,0.15);
+
+  /* Neutros */
+  --white:   #FFFFFF;
+  --bg-alt:  #F7F7F7;
+  --bg-dark: #1A1A2E;
+
+  /* Texto */
+  --text-primary:   #2D2D2D;
+  --text-secondary: #5A5A5A;
+  --text-muted:     #9E9E9E;
+
+  /* Bordas */
+  --border:       #E0E0E0;
+  --border-light: #F0F0F0;
+
+  /* Border radius */
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  18px;
+
+  /* Sombras */
+  --shadow-xs: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.07);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.09);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.11);
+
+  /* ============================================
+     SPACING SYSTEM (PADRÃO PROFISSIONAL)
+     ============================================ */
+  
+  /* Entre seções (blocos grandes) */
+  --section-spacing-y: 56px;
+  --section-spacing-y-mobile: 40px;
+
+  /* Dentro das seções (conteúdo interno) */
+  --spacing-title-subtitle: 12px;
+  --spacing-subtitle-button: 20px;
+  --spacing-text-blocks: 16px;
+
+  /* Entre Cards (serviços, diferenciais) */
+  --card-gap-x: 32px;
+  --card-gap-y: 32px;
+
+  /* Entre Botões */
+  --button-gap: 16px;
+
+  /* Padrão Simples (Sistema de Design) */
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-64: 64px;
+  --space-96: 96px;
+  --space-128: 128px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ============================================ RESET */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  font-size: 16px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--white);
+  color: var(--text-secondary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+}
+
+::selection { background: rgba(217,48,37,0.10); color: var(--text-primary); }
+
+/* ============================================ SCROLLBAR */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-alt); }
+::-webkit-scrollbar-thumb { background: #C8C8C8; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #A0A0A0; }
+
+/* ============================================ FOCUS */
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+
+/* ============================================ SR-ONLY */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* ============================================
+   CONTAINER — 1100px centralizado
+   ============================================ */
+.container-xl {
+  width: 100%;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.container-faq {
+  width: 100%;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .container-xl,
+  .container-faq {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* ============================================
+   SECTION HEADER — centralizado garantido
+   ============================================ */
+.section-header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 42rem;
+  width: 100%;
+}
+
+.section-header-center-narrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 34rem;
+  width: 100%;
+}
+
+/* ============================================
+   SPACING UTILITIES (SEMANTIC)
+   ============================================ */
+.section-py {
+  padding-top: var(--section-spacing-y-mobile);
+  padding-bottom: var(--section-spacing-y-mobile);
+}
+
+@media (min-width: 768px) {
+  .section-py {
+    padding-top: var(--section-spacing-y);
+    padding-bottom: var(--section-spacing-y);
+  }
+}
+
+.spacing-title-mb { margin-bottom: var(--spacing-title-subtitle); }
+.spacing-subtitle-mb { margin-bottom: var(--spacing-subtitle-button); }
+.spacing-text-mb { margin-bottom: var(--spacing-text-blocks); }
+
+.card-grid-gap {
+  display: grid;
+  gap: var(--card-gap-y) var(--card-gap-x);
+}
+
+.button-group-gap {
+  display: flex;
+  gap: var(--button-gap);
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+.heading-xl {
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+}
+
+.heading-lg {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+}
+
+.heading-md {
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  line-height: 1.2;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+}
+
+.body-lg {
+  font-size: 1.0625rem;
+  line-height: 1.72;
+}
+
+/* ============================================
+   SECTION LABEL (badge de seção)
+   ============================================ */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.3rem 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--red);
+  background: var(--red-light);
+  border: 1px solid var(--red-border);
+  border-radius: var(--radius-sm);
+}
+
+/* Alias */
+.badge-professional {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--red);
+  background: var(--red-light);
+  border: 1px solid var(--red-border);
+  border-radius: var(--radius-sm);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  background: var(--red);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.18s ease;
+  box-shadow: 0 2px 10px rgba(217,48,37,0.22);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: var(--red-dark);
+  box-shadow: 0 4px 18px rgba(217,48,37,0.32);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  background: var(--white);
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.18s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  border-color: #C0C0C0;
+  background: var(--bg-alt);
+  transform: translateY(-1px);
+}
+
+/* Shine effect */
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  animation: shine 4s ease-in-out infinite;
+}
+@keyframes shine { 0% { left: -100%; } 100% { left: 200%; } }
+
+/* ============================================
+   CARDS
+   ============================================ */
+.card-professional {
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+              transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+              border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de brilho envidraçado no hover */
+.card-professional::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.card-professional:hover::before {
+  left: 200%;
+}
+
+.card-professional:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+  border-color: var(--border);
+}
+
+/* ============================================
+   ICON BOX
+   ============================================ */
+.icon-box-sm, .icon-box-md, .icon-box-lg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--red-light);
+  color: var(--red);
+  border: 1px solid var(--red-border);
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+.icon-box-sm { width: 2.5rem;  height: 2.5rem; }
+.icon-box-md { width: 3rem;    height: 3rem;   }
+.icon-box-lg { width: 3.5rem;  height: 3.5rem; }
+
+/* ============================================
+   HERO GRADIENT (muito sutil, limpo)
+   ============================================ */
+.hero-gradient {
+  background: linear-gradient(160deg, #FFF8F7 0%, #FFFFFF 55%, #F7F7F7 100%);
+}
+
+/* ============================================
+   GRADIENT TEXT (vermelho da marca)
+   ============================================ */
+.gradient-text {
+  background: linear-gradient(135deg, var(--red), #F44336);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   FORM INPUTS
+   ============================================ */
+.input-professional, .input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  background: var(--white);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+.input-professional:focus, .input-field:focus {
+  outline: none;
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(217,48,37,0.08);
+}
+
+.input-professional::placeholder, .input-field::placeholder {
+  color: var(--text-muted);
+}
+
+/* ============================================
+   SHADOWS aliases
+   ============================================ */
+.shadow-professional { box-shadow: var(--shadow-sm); }
+
+/* ============================================
+   SECTION DIVIDER (linha fina vermelha)
+   ============================================ */
+.section-accent-line {
+  width: 3rem;
+  height: 3px;
+  background: var(--red);
+  border-radius: 99px;
+  margin: 1rem auto 0;
+}
+
+/* ============================================
+   REVEAL ANIMATION (fade-in suave e variações)
+   ============================================ */
+.reveal, .reveal-left, .reveal-right, .reveal-scale {
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal { transform: translateY(24px); }
+.reveal-left { transform: translateX(-32px); }
+.reveal-right { transform: translateX(32px); }
+.reveal-scale { transform: scale(0.92); }
+
+.reveal.visible, .reveal-left.visible, .reveal-right.visible, .reveal-scale.visible, .reveal-clip.visible {
+  opacity: 1 !important;
+  transform: translate(0) scale(1) !important;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) !important;
+}
+
+/* Fallback: se o JS não carregar em 3s, mostra tudo */
+@keyframes fallback-reveal {
+  to { opacity: 1; transform: translate(0) scale(1); clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
+.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-clip {
+  animation: fallback-reveal 0.1s forwards;
+  animation-delay: 3s;
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* ============================================
+   FLOATING & HOVER ANIMATIONS
+   ============================================ */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ============================================
+   DIGITAL DUST (SNOW)
+   ============================================ */
+@keyframes snow-fall {
+  0% { transform: translateY(-5vh) translateX(0); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(105vh) translateX(30px); opacity: 0; }
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: snow-fall linear infinite;
+}
+
+/* ============================================
+   SNAKE GLOW (MOVING BACKGROUND ORB)
+   ============================================ */
+@keyframes slither {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30vw, 50vh) scale(1.5); }
+  66% { transform: translate(-20vw, 80vh) scale(0.8); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+.snake-orb {
+  position: absolute;
+  top: 10%; left: 10%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(217,48,37,0.08) 0%, transparent 60%);
+  border-radius: 50%;
+  animation: slither 15s infinite alternate ease-in-out;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* LIVING SNAKES (SVG PATHS) */
+.snake-path-1, .snake-path-2, .snake-path-3 {
+  stroke-dasharray: 600 3000;
+  animation: slither-path linear infinite;
+}
+
+.snake-path-1 { animation-duration: 25s; }
+.snake-path-2 { animation-duration: 35s; animation-direction: reverse; }
+.snake-path-3 { animation-duration: 20s; stroke-dasharray: 800 3000; }
+
+@keyframes slither-path {
+  from { stroke-dashoffset: 3000; }
+  to { stroke-dashoffset: -1000; }
+}
+
+.snake-container {
+  position: relative;
+  border-radius: inherit;
+}
+
+.snake-container::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  border-radius: inherit;
+  padding: 3px;
+  background: linear-gradient(90deg, var(--red), transparent, var(--red), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: snake-border 3s linear infinite;
+  background-size: 200% 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes snake-border {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.hover-icon-scale:hover .icon-box-sm,
+.hover-icon-scale:hover .icon-box-md,
+.hover-icon-scale:hover .icon-box-lg {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.icon-box-sm, .icon-box-md, .icon-box-lg {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ============================================
+   ACCORDION (FAQ)
+   ============================================ */
+.accordion-trigger {
+  width: 100%;
+  text-align: left;
+  padding: 1.125rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: color 0.2s;
+}
+.accordion-trigger:hover { color: var(--red); }
+
+/* ============================================
+   WHATSAPP FAB PULSE
+   ============================================ */
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217,48,37,0.3); }
+  50%       { box-shadow: 0 0 0 10px rgba(217,48,37,0); }
+}
+.pulse-btn { animation: pulse-red 2.5s infinite; }
+
+/* ============================================
+   TOAST
+   ============================================ */
+.toast-success { background: #059669; color: #fff; }
+.toast-error   { background: #DC2626; color: #fff; }
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
