@@ -47,6 +47,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://sanuscontabil.com.br",
   },
+  icons: {
+    icon: "/logosanus.jpeg",
+    shortcut: "/logosanus.jpeg",
+    apple: "/logosanus.jpeg",
+  },
 };
 
 export default function RootLayout({
@@ -61,7 +66,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#FF6B00" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
         <Script
           id="json-ld"
           type="application/ld+json"
