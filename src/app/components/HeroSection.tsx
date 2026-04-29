@@ -86,8 +86,11 @@ export default function HeroSection() {
           </div>
 
           {/* ── RIGHT: Photo + floating stats ── */}
-          <div className="reveal-right reveal-delay-2 hidden lg:block xl:scale-110 transform origin-right transition-transform duration-700 hover:scale-[1.15] z-10 relative">
-            <div className="relative w-full overflow-hidden snake-container" style={{ borderRadius: "var(--radius-lg)", aspectRatio: "4/3", boxShadow: "var(--shadow-lg)" }}>
+          <div className="reveal-right reveal-delay-2 block xl:scale-110 transform origin-right transition-transform duration-700 hover:scale-[1.15] z-10 relative">
+            <div
+              className="relative w-full overflow-hidden snake-container aspect-video lg:aspect-[4/3]"
+              style={{ borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-lg)" }}
+            >
               <Image
                 src="/hero-imag.png"
                 alt="Equipe Sanus Contábil Digital — escritório em Itumbiara"
